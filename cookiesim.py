@@ -1,5 +1,6 @@
 from decimal import Decimal
 import matplotlib.pyplot as plt
+import numpy as np
 
 baseClicks = 1
 clicks = 1
@@ -218,10 +219,27 @@ while cookies < goal:
 cookiesgraph.append(int(cookies))
 time.append(seconds)
 print(seconds/60)
+print(cookies)
 
-
-plt.plot(time, cookiesgraph)
-plt.xlabel('Time (seconds)')
+plt.plot([t/60 for t in time], cookiesgraph)
+plt.xlabel('Time (minutes)')
 plt.ylabel('Cookies')
 plt.title('Cookies Over Time')
+
+# Set ticks for both axes
+x_ticks = np.linspace(0, max(time)/60, 5)
+y_ticks = np.linspace(0, max(cookiesgraph), 5)
+plt.xticks(x_ticks)
+plt.yticks(y_ticks)
+plt.ylim(0,cookies)
+plt.xlim(0,seconds/60)
 plt.show()
+
+File = 'cookiedata.txt'
+
+with open(File, 'w') as output_file:
+    for cookie in cookiesgraph:
+        print(cookie, file=output_file)
+    print("\n",file=output_file)
+    for second in time:
+        print(second,file = output_file)
